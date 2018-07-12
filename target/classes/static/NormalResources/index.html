@@ -1,10 +1,728 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/weather.js"></script>
+    <title>Eugene Index Page</title>
 </head>
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .lock {
+        z-index: 10;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url(images/lock.jpg) no-repeat center;
+        background-size: 100%;
+    }
+
+    .form {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        width: 250px;
+        height: 270px;
+        text-align: center;
+        background: rgba(255, 255, 255, .3);
+    }
+
+    .pic {
+        margin-top: 30px;
+        width: 80px;
+        height: 80px;
+        background: url(images/pic.jpg) no-repeat center;
+        background-size: 100%;
+        border-radius: 50%;
+        opacity: 0.8;
+    }
+
+    .pic:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    .name {
+        margin-top: 15px;
+        color: white;
+        font-size: 18px;
+    }
+
+    .input input {
+        margin-top: 20px;
+        255 d255 255;
+        px;
+        height: 30px;
+        text-indent: 10px;
+    }
+
+    .container {
+        z-index: 4;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: url(./images/bg7.jpg) no-repeat center;
+        background-size: 100%;
+        overflow: hidden;
+    }
+
+    .nav {
+        z-index: 3;
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        margin: 0px auto;
+        width: 1100px;
+        height: 60px;
+        background: rgba(229, 232, 237, .5);
+    }
+
+    .nav ul {
+        position: relative;
+        width: 98%;
+        top: 6px;
+        left: 13px;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .nav ul li {
+        float: left;
+        text-align: center;
+        transition: .5s;
+        margin: 0 5px;
+    }
+
+    .nav ul li:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+
+    .nav ul li img {
+        width: 80%;
+    }
+
+    /*====photo=====*/
+    .photo {
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        width: 60%;
+        height: 60%;
+        background: rgba(210, 210, 212, .7);
+        display: none;
+    }
+
+    .title {
+        padding-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .small_pic {
+        position: relative;
+        float: left;
+        width: 32%;
+        height: 40%;
+        margin-top: 10px;
+        margin-left: 6px;
+        overflow: hidden;
+    }
+
+    .small_pic img {
+        z-index: 2;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: .5s;
+    }
+
+    .small_pic img:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+
+    .img_cover {
+        z-index: 3;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 60%;
+        height: 10%;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, .6);
+        display: none;
+    }
+
+    .progress {
+        position: inherit;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        border-radius: 15px;
+        background: green;
+    }
+
+    .notice {
+        z-index: 4;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 240px;
+        height: 230px;
+        background: rgba(240, 240, 240, .8);
+        display: none;
+    }
+
+    .n_x, .w_x, .photo_exit {
+        position: inherit;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        background: white;
+        right: 0px;
+        top: 4px;
+        transition: .3s;
+    }
+
+    .photo_exit {
+        right: 0;
+        top: 0;
+    }
+
+    .n_x:hover, .w_x:hover, .photo_exit:hover {
+        cursor: pointer;
+        transform: rotateZ(180deg);
+    }
+
+    .notice_title {
+        padding: 5px 0;
+        text-align: center;
+        font-size: 15px;
+        background: black;
+        color: white;
+    }
+
+    .notice_content {
+        margin-top: 10px;
+        width: 90%;
+        height: 85%;
+        font-size: 14px;
+        color: #1A1A1A;
+        /*background: red;*/
+    }
+
+    .notice_content ul li {
+        height: 30px;
+        width: 100%;
+        letter-spacing: 2px;
+    }
+
+    .notice_content ul li:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .works {
+        z-index: 3;
+        position: absolute;
+        left: 10%;
+        right: 0px;
+        bottom: 30px;
+        top: 0px;
+        margin: auto;
+        width: 70%;
+        height: 80%;
+        display: none;
+        overflow: hidden;
+    }
+
+    .works ul {
+        width: 100%;
+        height: 100%;
+    }
+
+    .works ul li {
+        z-index: 3;
+        position: relative;
+        float: left;
+        width: 98px;
+        height: 100%;
+        background: rgba(240, 240, 240, .8);
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+        display: none;
+    }
+
+    .works ul li:nth-of-type(2) {
+        border: none;
+    }
+
+    .w_x {
+        z-index: 5;
+        position: absolute;
+        right: 1px;
+        top: 0px;
+        display: none;
+    }
+
+    .w_font {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        font-size: 20px;
+        width: 18%;
+        height: 30%;
+    }
+
+    .w_content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 90%;
+        height: 36%;
+        background: white;
+        display: none;
+    }
+
+    .w_content img {
+        width: 100%;
+    }
+
+    .w_con_one {
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .loading {
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        display: table;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        text-align: center
+    }
+
+    .loading .loader {
+        display: table-cell;
+        vertical-align: middle
+    }
+
+    .loading p {
+        margin-top: 15px;
+        color: #333
+    }
+
+    .loader_icn {
+        opacity: .75;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        -webkit-animation: clockwise .5s linear infinite;
+        animation: clockwise .5s linear infinite
+    }
+
+    .loader_cut {
+        width: 12px;
+        height: 24px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0
+    }
+
+    .loader_donut {
+        box-sizing: border-box;
+        width: 24px;
+        height: 24px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: 0 0;
+        margin: 0;
+        -webkit-animation: donut-rotate 1s cubic-bezier(.4, 0, .22, 1) infinite;
+        animation: donut-rotate 1s cubic-bezier(.4, 0, .22, 1) infinite
+    }
+
+    @-webkit-keyframes clockwise {
+        0% {
+            -webkit-transform: rotate(0deg)
+        }
+        100% {
+            -webkit-transform: rotate(360deg)
+        }
+    }
+
+    @keyframes clockwise {
+        0% {
+            transform: rotate(0deg)
+        }
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    @-webkit-keyframes donut-rotate {
+        0% {
+            -webkit-transform: rotate(0deg)
+        }
+        50% {
+            -webkit-transform: rotate(-140deg)
+        }
+        100% {
+            -webkit-transform: rotate(0deg)
+        }
+    }
+
+    @keyframes donut-rotate {
+        0% {
+            transform: rotate(0deg)
+        }
+        50% {
+            transform: rotate(-140deg)
+        }
+        100% {
+            transform: rotate(0deg)
+        }
+    }
+
+</style>
+<script type="text/javascript">
+    window.onload = function () {
+        $(".loading").hide();
+    }
+    document.write('<div class="loading"><div class="loader"><div class="loader_icn"><div class="loader_cut"><div class="loader_donut"></div></div></div><p>Loading...</p></div></div>');
+</script>
 <body>
-Hello World
+<!-- <div id="loading" style="background:#CC4444;color:#FFF;width:80px;padding-left:5px;z-index:999;position:absolute;line-height:22px">正在读取...</div> -->
+
+<!--loading-->
+<!-- <div class="loading">
+  <div class="loader">
+    <div class="loader_icn">
+      <div class="loader_cut">
+        <div class="loader_donut"></div>
+      </div>
+    </div>
+    <p>Loading...</p>
+  </div>
+</div> -->
+<!--//loading-->
+<div id="graph"
+     style="width: 50%;height: 50%;position: absolute;left: 30%;bottom: 30%;background-color: #FC4C4C;z-index:999999;display: none"
+     onclick=""></div>
+<div id="tp-weather-widget"></div>
+<div class="lock animated">
+    <div class="form">
+        <div class="pic"></div>
+        <div class="name">Eugene Liu</div>
+        <div class="input">
+            <input class="animated" type="password" placeholder="请输入密码" value=""/>
+        </div>
+    </div>
+</div>
+<div class="container" id="particles-js">
+    <div class="nav">
+        <ul>
+            <li class="n_work"><img src="images/icon1.png"></li>
+            <li class="showGraphButton"><img src="images/icon2.png"></li>
+            <li><img src="images/icon3.png"></li>
+            <li><img src="images/icon4.png"></li>
+            <li><img src="images/icon5.png"></li>
+            <li><img src="images/icon6.png"></li>
+            <li><img src="images/icon7.png"></li>
+            <li class="n_notices"><img src="images/icon8.png"></li>
+            <li class="n_lock"><img src="images/icon9.png"></li>
+            <li><img src="images/icon10.png"></li>
+            <li><img src="images/icon11.png"></li>
+            <li><img src="images/icon12.png"></li>
+            <li class="n_photo"><img src="images/icon13.png"></li>
+            <li><img src="images/icon14.png"></li>
+            <li><img src="images/icon15.png"></li>
+        </ul>
+    </div>
+    <div class="photo animated">
+        <div class="photo_exit">X</div>
+        <div class="title">精选壁纸</div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg3.jpg">
+        </div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg4.jpg">
+        </div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg5.jpg">
+        </div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg6.jpg">
+        </div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg7.jpg">
+        </div>
+        <div class="small_pic">
+            <div class="img_cover">
+                <span class="progress"></span>
+            </div>
+            <img src="images/bg8.jpg">
+        </div>
+    </div>
+    <div class="notice">
+        <div class="n_x">X</div>
+        <div class="notice_title">温馨提示</div>
+        <div class="notice_content">
+            <ul>
+                <li>1.本界面采用全屏模式</li>
+                <li>2.可通过ESC退出全屏</li>
+                <li>3.建议全屏浏览，效果更佳</li>
+                <li>4.作品归EugeneLiu所有</li>
+            </ul>
+        </div>
+    </div>
+    <div class="works animated">
+        <ul>
+            <li class="animated">
+                <div class="w_x">X</div>
+                <div class="w_font">后台注册页面</div>
+                <div class="w_content animated">
+                    <a href="preview/703246/2017-03-09/%E5%8E%9F%E5%88%9B%E4%BD%9C%E5%93%81/demo.html"
+                       target="_blank"><img src="./images/work1.png"></a>
+                </div>
+            </li>
+            <li class="animated">
+                <div class="w_x">X</div>
+                <div class="w_font">3D之九宫格</div>
+                <div class="w_content animated">
+                    <a href="preview/703246/2018-01-09/demo11/index.html" target="_blank"><img src="./images/work2.png"></a>
+                </div>
+            </li>
+            <li class="animated">
+                <div class="w_x">X</div>
+                <div class="w_font">个人简历模板</div>
+                <div class="w_content animated">
+                    <a href="preview/703246/2018-01-02/resume1/index.html" target="_blank"><img
+                            src="./images/work3.png"></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //本地存储功能
+        var storage = window.localStorage;
+        if (storage.url) {
+            $(".container").css({"background": "url(" + storage.url + ") no-repeat center", "background-size": "100%"});
+        }
+        var record = 1;
+
+        function requestFullScreen(element) {
+            // 判断各种浏览器，找到正确的方法
+            var requestMethod = element.requestFullScreen || //W3C
+                element.webkitRequestFullScreen || //Chrome等
+                element.mozRequestFullScreen || //FireFox
+                element.msRequestFullScreen; //IE11
+            if (requestMethod) {
+                requestMethod.call(element);
+            }
+            else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+                var wscript = new ActiveXObject("WScript.Shell");
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        };
+
+        /*$("#showGraphButton").showGraph(function () {
+            var a = 1;
+            if (a == 1) {
+                document.getElementById("graph").style.display = "block";
+                a = 0;
+            } else {
+                document.getElementById("graph").style.display = "none";
+                a = 1;
+            }
+        });*/
+
+        $("body").contextmenu(function () {
+            return false;
+        });
+        $("body").click(function () {
+            requestFullScreen(document.documentElement)
+        });
+
+        function pclock() {
+            this.dom = $(".input input");
+            this.Animate = ["zoomOutDown", "bounce", "fadeInDown", "lightSpeedIn", "lightSpeedOut", "flipInY", "rotateOut", "bounceInUp"];
+        };
+        pclock.prototype = {
+            Class: function (a, b, c) {
+                $(a).show().addClass(b);
+                $(a).removeClass(c);
+            },
+            Notice: function (a, b, c) {
+                if (c) {
+                    $(a).slideDown(b);
+                } else {
+                    $(a).slideUp(b);
+                }
+            },
+            yanzhen: function () {
+                var pwd = "EugeneLiu";
+                if (this.dom.val() == pwd) {
+                    Lock.Class(".lock", Lock.Animate[0]);
+                    this.Notice(".notice", 1000, 1);
+                } else {
+                    this.dom.val("");
+                    Lock.Class(".input input", Lock.Animate[1]);
+                    this.dom.attr({"placeholder": "密码错误"});
+                }
+            },
+            //锁屏
+            lockClick: function () {
+                this.dom.blur(function () {
+                    Lock.Class(this, "", Lock.Animate[1]);
+                    Lock.yanzhen();
+                });
+                $(window).keydown(function (a) {
+                    Lock.Class(".input input", "", Lock.Animate[1]);
+                    if (a.which == 13) {
+                        Lock.yanzhen();
+                    }
+                })
+                $(".n_lock").click(function () {
+                    Lock.dom.val("");
+                    Lock.dom.attr({"placeholder": "请输入密码"});
+                    Lock.Class(".lock", Lock.Animate[2], Lock.Animate[0]);
+                })
+            },
+            photoClick: function (dom, a, b, c) {
+                $(dom).click(function () {
+                    Lock.Class(a, b, c);
+                });
+            },
+            //设置壁纸
+            setPhoto: function () {
+                $(".small_pic").click(function () {
+                    var that = $(this);
+                    $(".img_cover").addClass("animated");
+                    $(".img_cover").hide().removeClass("rotateIn");
+                    $(this).find(".img_cover").show().addClass("rotateIn");
+                    $(this).find(".progress").css("width", "0%").stop().animate({
+                        width: "100%"
+                    }, 5000, function () {
+                        var imgUrl = that.find("img").attr("src");
+                        $(".container").css({
+                            "background": "url(" + imgUrl + ") no-repeat center",
+                            "background-size": "100%"
+                        });
+                        storage.url = imgUrl; // 把最后设置的壁纸存储到localstorage
+                    });
+                });
+            },
+            NoticeClose: function (a, b) {
+                $(a).click(function () {
+                    Lock.Notice(".notice", 1000, b);
+                });
+            },
+            //作品
+            Work: function () {
+                //初始化
+                function Zero() {
+                    $(".works ul li").css("width", "98px").stop();
+                    $(".w_x").hide();
+                    $(".w_font").show();
+                    $(".w_content").removeClass(Lock.Animate[7]).hide(500);
+                };
+                $('.showGraphButton').click(function () {
+                    if (record == 1) {
+                        document.getElementById("graph").style.display = "block";
+                        record = 0;
+                    } else if (record == 0) {
+                        document.getElementById("graph").style.display = "none";
+                        record = 1;
+                    }
+                })
+                $(".n_work").click(function () {
+                    Lock.Class(".works", "", Lock.Animate[6]);
+                    Lock.Class(".works ul li", Lock.Animate[5]);
+                    Zero();
+                });
+                $(".works ul li").click(function () {
+                    //此判断==防止冒泡
+                    if ($(this).width() != "571") {
+                        Zero();
+                        var that = $(this);
+                        $(this).find(".w_x").show();
+                        $(this).find(".w_font").fadeOut(500);
+                        $(this).animate({"width": "60%"}, 1000, function () {
+                            that.find(".w_content").show().addClass(Lock.Animate[7]);
+                        });
+                    }
+                });
+                $(".w_x").click(function () {
+                    $(".works").addClass(Lock.Animate[6]).hide(1000);
+                });
+            }
+        }
+        var Lock = new pclock();
+        Lock.lockClick();
+        Lock.photoClick(".n_photo", ".photo", Lock.Animate[3], Lock.Animate[4]);
+        Lock.photoClick(".photo_exit", ".photo", Lock.Animate[4], Lock.Animate[3]);
+        Lock.setPhoto();
+        Lock.NoticeClose(".n_x");
+        Lock.NoticeClose(".n_notices", 1);
+        Lock.Work();
+    });
+</script>
+<script src="js/particles.min.js"></script>
+<script src="js/zhuti1.js"></script>
 </body>
 </html>
