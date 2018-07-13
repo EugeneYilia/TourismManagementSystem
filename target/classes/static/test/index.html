@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- This code is for demonstration purposes only.  You should not hotlink to Github, Rawgit, or files from the Cytoscape.js documentation in your production apps. -->
+<html>
+<head>
+    <meta charset=utf-8/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <title>Multiple instances</title>
+    <script src="cytoscape.min.js"></script>
+    <style type="text/css">
+        #cy {
+            height: 80%;
+            width: 90%;
+            position: absolute;
+            left: 5%;
+            bottom: 10%;
+            background-color: #FAEDEF;
+        }
+    </style>
+</head>
+<body>
+<div id="cy"></div>
+<script>
+    var elesJson = {
+        nodes: [
+            { data: { id: '北门', foo: 2, bar: 7, baz: 6} },//a
+            { data: { id: '狮子山', foo: 2, bar: 7, baz: 6} },//b
+            { data: { id: '仙云石', foo: 2, bar: 7, baz: 6} },//c
+            { data: { id: '一线天', foo: 2, bar: 7, baz: 6} },//d
+            { data: { id: '飞流瀑', foo: 2, bar: 7, baz: 6} }//e
+        ],
+        edges: [
+            { data: { id: 'ae', weight: 1, source: '北门', target: '狮子山' } },
+            { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
+            { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
+            { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
+            { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
+            { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
+            { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
+        ]
+    };
+    cytoscape({
+        container: document.getElementById('cy'),
+        style: cytoscape.stylesheet()
+            .selector('node')
+            .css({
+                'background-color': '#B3767E',
+                'width': 'mapData(baz, 0, 10, 10, 40)',
+                'height': 'mapData(baz, 0, 10, 10, 40)',
+                'content': 'data(id)'
+            })
+            .selector('edge')
+            .css({
+                'line-color': '#F2B1BA',
+                'target-arrow-color': '#F2B1BA',
+                'width': 2,
+                'target-arrow-shape': 'circle',
+                'opacity': 0.8
+            })
+            .selector(':selected')
+            .css({
+                'background-color': 'black',
+                'line-color': 'black',
+                'target-arrow-color': 'black',
+                'source-arrow-color': 'black',
+                'opacity': 1
+            })
+            .selector('.faded')
+            .css({
+                'opacity': 0.25,
+                'text-opacity': 0
+            }),
+        elements: elesJson,
+        layout: {
+            name: 'circle',
+            padding: 10
+        },
+        ready: function(){
+            // ready 1
+        }
+    });
+</script>
+</body>
+</html>

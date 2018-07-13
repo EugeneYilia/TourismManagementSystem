@@ -6,8 +6,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/animate.css">
+    <link href="https://avatars3.githubusercontent.com/u/38400679?s=460&v=4" rel="SHORTCUT ICON">
     <script src="js/jquery.min.js"></script>
-    <script src="js/weather.js"></script>
+    <!--<script src="js/weather.js"></script>-->
     <title>Eugene Index Page</title>
 </head>
 <style>
@@ -62,8 +63,6 @@
 
     .input input {
         margin-top: 20px;
-        255 d255 255;
-        px;
         height: 30px;
         text-indent: 10px;
     }
@@ -418,6 +417,24 @@
         }
     }
 
+    /*#cy {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        !*left: 0;*!
+        !*top: 0;*!
+        !*background-color: #FAEDEF;*!
+    }
+*/
+    /*#cy2 {
+        height: 50%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        background-color: #EDF1FA;
+        border-top: 1px solid #ccc;
+    }*/
 </style>
 <script type="text/javascript">
     window.onload = function () {
@@ -440,9 +457,86 @@
   </div>
 </div> -->
 <!--//loading-->
+<script src="js/cytoscape.min.js"></script>
 <div id="graph"
-     style="width: 50%;height: 50%;position: absolute;left: 30%;bottom: 30%;background-color: #FC4C4C;z-index:999999;display: none"
-     onclick=""></div>
+     style="width: 90%;height: 80%;position: absolute;left: 5%;bottom: 10%;background-color: #FC4C4C;z-index:999999;display: none">
+</div>
+<script>
+    var elesJson = {
+        nodes: [
+            {data: {id: 'a', foo: 3, bar: 5, baz: 7}},
+            {data: {id: 'b', foo: 7, bar: 1, baz: 3}},
+            {data: {id: 'c', foo: 2, bar: 7, baz: 6}},
+            {data: {id: 'd', foo: 9, bar: 5, baz: 2}},
+            {data: {id: 'e', foo: 2, bar: 4, baz: 5}}
+        ],
+        edges: [
+            {data: {id: 'ae', weight: 1, source: 'a', target: 'e'}},
+            {data: {id: 'ab', weight: 3, source: 'a', target: 'b'}},
+            {data: {id: 'be', weight: 4, source: 'b', target: 'e'}},
+            {data: {id: 'bc', weight: 5, source: 'b', target: 'c'}},
+            {data: {id: 'ce', weight: 6, source: 'c', target: 'e'}},
+            {data: {id: 'cd', weight: 2, source: 'c', target: 'd'}},
+            {data: {id: 'de', weight: 7, source: 'd', target: 'e'}}
+        ]
+    };
+    $.ajax({
+        url: "http://localhost/graph/information",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log("资源请求成功");
+            console.log(data);
+            //console.log(JSON.parse(data));
+            var cy = cytoscape({
+                container: document.getElementById('graph'),
+                style: cytoscape.stylesheet()
+                    .selector('node')
+                    .css({
+                        'background-color': '#B3767E',
+                        'width': 'mapData(baz, 0, 10, 10, 40)',
+                        'height': 'mapData(baz, 0, 10, 10, 40)',
+                        'content': 'data(id)'
+                    })
+                    .selector('edge')
+                    .css({
+                        'line-color': '#F2B1BA',
+                        'target-arrow-color': '#F2B1BA',
+                        'width': 5,
+                        'target-arrow-shape': 'circle',
+                        'opacity': 0.8
+                    })
+                    .selector(':selected')
+                    .css({
+                        'background-color': 'black',
+                        'line-color': 'black',
+                        'target-arrow-color': 'black',
+                        'source-arrow-color': 'black',
+                        'opacity': 1,
+                        'text-opacity': 1
+                    })
+                    .selector('.faded')
+                    .css({
+                        'opacity': 0.25,
+                        'text-opacity': 0.25
+                    }),
+                elements: data,
+                layout: {
+                    name: 'circle',
+                    padding: 10
+                }/*,
+                        position: {x: 400, y: 400}*/
+            })
+            document.getElementById("graph").style.display = "none";
+            cy.resize();
+        },
+        error: function (data) {
+            console.log(data);
+            console.log("资源请求失败");
+        }
+    });
+
+</script>
 <div id="tp-weather-widget"></div>
 <div class="lock animated">
     <div class="form">

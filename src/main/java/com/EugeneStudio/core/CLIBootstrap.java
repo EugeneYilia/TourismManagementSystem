@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Bootstrap {
+public class CLIBootstrap {
     public static Scanner scanner = new Scanner(System.in);
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -21,7 +21,7 @@ public class Bootstrap {
         }
     }
 
-    public static void main(String[] args) {//自动从文件读取，创建景区景点分布图
+    public static void start() {//自动从文件读取，创建景区景点分布图   cli start
         while (true) {
             System.out.println("1.管理员登陆");
             System.out.println("2.景点查找");

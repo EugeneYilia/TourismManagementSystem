@@ -22,9 +22,9 @@ public class AuthResourcesController {//01普通用户  10管理员
         System.out.println("收到请求" + param1);
         File file = new File("src/main/resources/static/AuthResources/" + param1);
         if (!file.exists()) {
-            routingContext.request().response().sendFile("src/main/resources/static/NormalResources/404.html");
+            routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/404.html").end();
         } else if (!file.getName().equals(param1)) {//文件名有大小写的差别造成的文件不一样，此时也返回文件不存在
-            routingContext.request().response().sendFile("src/main/resources/static/NormalResources/404.html");
+            routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/404.html").end();
         }
         //RedisClient redisClient = Bootstrap.getRedisClient();
         if (param1.equals("AdministratorDashboard.html")) {//验证cookie
@@ -39,11 +39,11 @@ public class AuthResourcesController {//01普通用户  10管理员
             String permission = session.get("authority");
             if (permission == null) {
                 System.out.println("用户验证已过期");
-                routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/Expiration.html").end();
             } else if (permission.equals("10")) {
-                routingContext.request().response().sendFile("src/main/resources/static/AuthResources/AdministratorDashboard.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/AuthResources/AdministratorDashboard.html").end();
             } else {
-                routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/Expiration.html").end();
             }
 //            router.route().handler(AdministratorController::handleAuth);
         } else if (param1.equals("UserDashboard.html")) {//验证cookie
@@ -57,20 +57,19 @@ public class AuthResourcesController {//01普通用户  10管理员
             String permission = session.get("authority");
             if (permission == null) {
                 System.out.println("用户验证已过期");
-                routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/Expiration.html").end();
             } else if (permission.equals("10") || permission.equals("01")) {//可以访问特定的页面
-                routingContext.request().response().sendFile("src/main/resources/static/AuthResources/UserDashboard.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/AuthResources/UserDashboard.html").end();
             } else {//没有访问权限，进行重定向
-                routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html");
+                routingContext.request().response().putHeader("content-type", "text/html;charset=utf-8").sendFile("src/main/resources/static/NormalResources/Expiration.html").end();
             }
-
         }
     }
 
     private static boolean testSessionIsNull(Session session, RoutingContext routingContext) {
         if (session == null) {
             System.out.println("session is null");
-            routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html");
+            routingContext.request().response().sendFile("src/main/resources/static/NormalResources/Expiration.html").end();
             return true;
         } else {
             System.out.println("session is not null");
